@@ -9,11 +9,13 @@ function handleServer(req,res){
         store+= chunk;
     })
     req.on('end',()=> {
-        if(dataFormat === "application/json"){
+        if(req.method === "POST" && req.url === "/json"){
+            res.setHeader('Contnet-Type','application/json');
             let parsedData = JSON.parse(store);
             res.end(JSON.stringify(parsedData));
         }
-        else if(dataFormat === "application/x-www-form-urlencoded" ){
+        else if(req.method === "POST" && req.url === "/form"){
+            res.setHeader('Contnet-Type','application/json');
             let parsedData = querystring.parse(store);
             res.end(JSON.stringify(parsedData));
         }
